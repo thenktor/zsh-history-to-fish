@@ -1,7 +1,7 @@
 #!/bin/zsh
 # shellcheck disable=SC3043
 
-ZSH_HISTORY_FILE="$HOME/.zsh_history"
+ZSH_HISTORY_FILE="$HOME/.zhistory"
 FISH_HISTORY_FILE="$HOME/.local/share/fish/fish_history"
 BRBLUE=$(tput setaf 153)
 BLUE=$(tput setaf 4)
