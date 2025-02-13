@@ -6,7 +6,7 @@ FISH_HISTORY_FILE="$HOME/.local/share/fish/fish_history"
 BRBLUE=$(tput setaf 153)
 BLUE=$(tput setaf 4)
 YELLOW=$(tput setaf 3)
-Z=$(tput sgr0)
+NOCOLOR=$(tput sgr0)
 
 ZSH_HISTORY_READER="zsh -i -c 'fc -R {}; fc -l -t \"%s\" 0'"
 
@@ -45,7 +45,7 @@ fnExporter() {
 		[ $((i % 1000)) -eq 0 ] && printf "."
 	done < <(fnParseHistory "$input_file")
 	
-	printf "\nProcessed %s%s%s commands.\n" "${BLUE}" "${i}" "${Z}"
+	printf "\nProcessed %s commands.\n" "${BLUE}${i}${NOCOLOR}"
 }
 
 while getopts "dhi:o:" OPT; do
@@ -68,10 +68,10 @@ fi
 echo "ZSH history to Fish"
 echo "==================="
 BLUE=$(tput setaf 4)
-printf "%s\n" "${BRBLUE}input ${Z}: ${BLUE}${ZSH_HISTORY_FILE}${Z}"
-printf "%s" "${BRBLUE}output${Z}: ${BLUE}${FISH_HISTORY_FILE}${Z}"
+printf "%s\n" "${BRBLUE}input ${NOCOLOR}: ${BLUE}${ZSH_HISTORY_FILE}${NOCOLOR}"
+printf "%s" "${BRBLUE}output${NOCOLOR}: ${BLUE}${FISH_HISTORY_FILE}${NOCOLOR}"
 if [ "$DRY_RUN" = "1" ]; then
-	printf " %sdry run!%s\n" "${YELLOW}" "${Z}"
+	printf " %s\n" "${YELLOW}dry run!${NOCOLOR}"
 else
 	printf "\n"
 fi
