@@ -32,3 +32,5 @@ Usage: ./zsh-fish.sh [-d] [-i <input_file>] [-o <output_file>]
   -i <input_file> : path to ZSH history file, default: ~/.zhistory
   -o <output_file>: path to Fish history file, default: ~/.local/share/fish/fish_history
 ```
+
+Note: Usual file names for the ZSH history file are `~/.zhistory` or `~/.zsh_history`.
