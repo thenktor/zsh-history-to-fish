@@ -1,7 +1,8 @@
 #!/bin/zsh
 # shellcheck disable=SC3043
 
-ZSH_HISTORY_FILE="$HOME/.zhistory"
+ZSH_HISTORY_FILE=$(zsh -ic 'echo $HISTFILE')
+if [ -z "$ZSH_HISTORY_FILE" ]; then ZSH_HISTORY_FILE="$HOME/.zhistory"; fi
 FISH_HISTORY_FILE="$HOME/.local/share/fish/fish_history"
 BRBLUE=$(tput setaf 153)
 BLUE=$(tput setaf 4)
@@ -13,7 +14,7 @@ ZSH_HISTORY_READER="zsh -i -c 'fc -R {}; fc -l -t \"%s\" 0'"
 fnUsage() {
 	echo "Usage: $1 [-d] [-i <input_file>] [-o <output_file>]" 1>&2;
 	echo "  -d              : dry-run (don't write output file)" 1>&2;
-	echo "  -i <input_file> : path to ZSH history file, default: ~/.zhistory" 1>&2;
+	echo "  -i <input_file> : path to ZSH history file, default: \$HISTFILE or ~/.zhistory" 1>&2;
 	echo "  -o <output_file>: path to Fish history file, default: ~/.local/share/fish/fish_history" 1>&2;
 	exit 1;
 }
