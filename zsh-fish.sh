@@ -4,10 +4,18 @@
 ZSH_HISTORY_FILE=$(zsh -ic 'echo $HISTFILE')
 if [ -z "$ZSH_HISTORY_FILE" ]; then ZSH_HISTORY_FILE="$HOME/.zhistory"; fi
 FISH_HISTORY_FILE="$HOME/.local/share/fish/fish_history"
-BRBLUE=$(tput setaf 153)
-BLUE=$(tput setaf 4)
-YELLOW=$(tput setaf 3)
-NOCOLOR=$(tput sgr0)
+
+if which tput > /dev/null; then
+	BRBLUE=$(tput setaf 153)
+	BLUE=$(tput setaf 4)
+	YELLOW=$(tput setaf 3)
+	NOCOLOR=$(tput sgr0)
+else
+	BRBLUE=""
+	BLUE=""
+	YELLOW=""
+	NOCOLOR=""
+fi
 
 ZSH_HISTORY_READER="zsh -i -c 'fc -R {}; fc -l -t \"%s\" 0'"
 
@@ -68,7 +76,6 @@ fi
 
 echo "ZSH history to Fish"
 echo "==================="
-BLUE=$(tput setaf 4)
 printf "%s\n" "${BRBLUE}input ${NOCOLOR}: ${BLUE}${ZSH_HISTORY_FILE}${NOCOLOR}"
 printf "%s" "${BRBLUE}output${NOCOLOR}: ${BLUE}${FISH_HISTORY_FILE}${NOCOLOR}"
 if [ "$DRY_RUN" = "1" ]; then
