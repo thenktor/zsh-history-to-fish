@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 # shellcheck disable=SC3043
 
 ZSH_HISTORY_FILE=$(zsh -ic 'echo $HISTFILE')
