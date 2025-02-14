@@ -2,7 +2,7 @@
 
 This is a simple shell script to ease the migration from [ZSH](https://www.zsh.org/) to [Fish shell](https://fishshell.com/). It converts the ZSH history to Fish.
 
-This is a shell rewrite of [rsalmei/zsh-history-to-fish](https://github.com/rsalmei/zsh-history-to-fish), because I did not want to install Python for this small task.
+This is a shell rewrite of [rsalmei/zsh-history-to-fish](https://github.com/rsalmei/zsh-history-to-fish).
 
 # Dependencies
 
