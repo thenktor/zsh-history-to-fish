@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-# shellcheck disable=SC3043
 
 ZSH_HISTORY_FILE=$(zsh -ic 'echo $HISTFILE')
 if [ -z "$ZSH_HISTORY_FILE" ]; then ZSH_HISTORY_FILE="$HOME/.zhistory"; fi
