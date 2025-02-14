@@ -26,31 +26,8 @@ fnUsage() {
 }
 
 fnParseHistory() {
-	local input_file="$1"
-	local command
-	zsh -i -c 'fc -R '"$input_file"'; fc -l -t \"%s\" 0' | awk '{ $1=""; sub(/^ /, ""); print }'
-}
-
-fnExporter() {
-	local input_file="${1:-$ZSH_HISTORY_FILE}"
-	local output_file="${2:-$FISH_HISTORY_FILE}"
-	local i=0
-
-	while IFS= read -r line; do
-		local timestamp="${line%% *}"
-		local command_zsh="${line#* }"
-		local fish_history="- cmd: $command_zsh\n  when: $timestamp\n"
-
-		if [ -z "$command_zsh" ]; then continue; fi
-
-		echo -E "- cmd: $command_zsh" >> "$output_file"
-		echo "  when: $timestamp\n" >> "$output_file"
-
-		i=$((i + 1))
-		[ $((i % 1000)) -eq 0 ] && printf "."
-	done < <(fnParseHistory "$input_file")
-	
-	printf "\nProcessed %s commands.\n" "${BLUE}${i}${NOCOLOR}"
+	local INPUT_FILE="$1"
+	zsh -i -c 'fc -R '"$INPUT_FILE"'; fc -l -t \"%s\" 0' | awk '{ $1=""; sub(/^ /, ""); print }'
 }
 
 while getopts "dhi:o:" OPT; do
@@ -72,12 +49,26 @@ fi
 
 echo "ZSH history to Fish"
 echo "==================="
-printf "%s\n" "${BRBLUE}input ${NOCOLOR}: ${BLUE}${ZSH_HISTORY_FILE}${NOCOLOR}"
-printf "%s" "${BRBLUE}output${NOCOLOR}: ${BLUE}${FISH_HISTORY_FILE}${NOCOLOR}"
+echo -e "${BRBLUE}input ${NOCOLOR}: ${BLUE}${ZSH_HISTORY_FILE}${NOCOLOR}"
+echo -e -n "${BRBLUE}output${NOCOLOR}: ${BLUE}${FISH_HISTORY_FILE}${NOCOLOR}"
 if [ "$DRY_RUN" = "1" ]; then
-	printf " %s\n" "${YELLOW}dry run!${NOCOLOR}"
+	echo -e "${YELLOW}dry run!${NOCOLOR}"
 else
-	printf "\n"
+	echo ""
 fi
 
-fnExporter "$ZSH_HISTORY_FILE $FISH_HISTORY_FILE"
+i=0
+while IFS= read -r line; do
+	TIMESTAMP="${line%% *}"
+	COMMAND_ZSH="${line#* }"
+
+	if [ -z "$COMMAND_ZSH" ]; then continue; fi
+
+	echo -E "- cmd: $COMMAND_ZSH" >> "$FISH_HISTORY_FILE"
+	echo "  when: $TIMESTAMP\n" >> "$FISH_HISTORY_FILE"
+
+	i=$((i + 1))
+	[ $((i % 1000)) -eq 0 ] && printf "."
+done < <(fnParseHistory "$ZSH_HISTORY_FILE")
+
+echo -e "\nProcessed ${BLUE}${i}${NOCOLOR} commands."
