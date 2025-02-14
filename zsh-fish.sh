@@ -65,7 +65,7 @@ while IFS= read -r line; do
 	if [ -z "$COMMAND_ZSH" ]; then continue; fi
 
 	echo -E "- cmd: $COMMAND_ZSH" >> "$FISH_HISTORY_FILE"
-	echo "  when: $TIMESTAMP\n" >> "$FISH_HISTORY_FILE"
+	echo "  when: $TIMESTAMP" >> "$FISH_HISTORY_FILE"
 
 	i=$((i + 1))
 	[ $((i % 1000)) -eq 0 ] && printf "."
