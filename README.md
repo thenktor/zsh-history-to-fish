@@ -29,7 +29,7 @@ chmod +x zsh-fish.sh
 # ./zsh-fish.sh -h
 Usage: ./zsh-fish.sh [-d] [-i <input_file>] [-o <output_file>]
   -d              : dry-run (don't write output file)
-  -i <input_file> : path to ZSH history file, default: ~/.zhistory
+  -i <input_file> : path to ZSH history file, default: $HISTFILE or ~/.zhistory
   -o <output_file>: path to Fish history file, default: ~/.local/share/fish/fish_history
 ```
 
