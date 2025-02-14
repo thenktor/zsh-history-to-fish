@@ -17,8 +17,6 @@ else
 	NOCOLOR=""
 fi
 
-ZSH_HISTORY_READER="zsh -i -c 'fc -R {}; fc -l -t \"%s\" 0'"
-
 fnUsage() {
 	echo "Usage: $1 [-d] [-i <input_file>] [-o <output_file>]" 1>&2;
 	echo "  -d              : dry-run (don't write output file)" 1>&2;
@@ -27,15 +25,10 @@ fnUsage() {
 	exit 1;
 }
 
-fnReadHistory() {
+fnParseHistory() {
 	local input_file="$1"
 	local command
-	command=$(eval "${ZSH_HISTORY_READER//\{\}/$input_file}")
-	echo "$command" | sed 's/\\n/\n/g'
-}
-
-fnParseHistory() {
-	fnReadHistory "$1" | awk '{ $1=""; sub(/^ /, ""); print }'
+	zsh -i -c 'fc -R '"$input_file"'; fc -l -t \"%s\" 0' | awk '{ $1=""; sub(/^ /, ""); print }'
 }
 
 fnExporter() {
@@ -48,7 +41,10 @@ fnExporter() {
 		local command_zsh="${line#* }"
 		local fish_history="- cmd: $command_zsh\n  when: $timestamp\n"
 
-		echo "$fish_history" >> "$output_file"
+		if [ -z "$command_zsh" ]; then continue; fi
+
+		echo -E "- cmd: $command_zsh" >> "$output_file"
+		echo "  when: $timestamp\n" >> "$output_file"
 
 		i=$((i + 1))
 		[ $((i % 1000)) -eq 0 ] && printf "."
