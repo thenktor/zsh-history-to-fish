@@ -22,7 +22,6 @@ fnUsage() {
 	echo "  -d              : dry-run (don't write output file)" 1>&2;
 	echo "  -i <input_file> : path to ZSH history file, default: \$HISTFILE or ~/.zhistory" 1>&2;
 	echo "  -o <output_file>: path to Fish history file, default: ~/.local/share/fish/fish_history" 1>&2;
-	exit 1;
 }
 
 fnParseHistory() {
@@ -35,7 +34,8 @@ while getopts "dhi:o:" OPT; do
 		d) DRY_RUN="1" ;;
 		i) ZSH_HISTORY_FILE="$OPTARG" ;;
 		o) FISH_HISTORY_FILE="$OPTARG" ;;
-		*) fnUsage "$0" ;;
+		h) fnUsage "$0"; exit 0 ;;
+		*) fnUsage "$0"; exit 1 ;;
 	esac
 done
 
